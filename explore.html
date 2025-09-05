@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Lufthansa</title>
+  <style>
+    :root {
+      --blue: #05164d;
+      --yellow: #ffcc00;
+      --white: #ffffff;
+    }
+
+    body {
+      background: var(--blue);
+      color: var(--white);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    nav {
+      background: rgba(5, 22, 77, 0.9);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h1 {
+      color: var(--yellow);
+      font-size: 22px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 80px 20px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--yellow);
+    }
+
+    .card p {
+      font-size: 15px;
+      margin-bottom: 15px;
+      color: #e0e0e0;
+    }
+
+    .card a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--yellow);
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .card a:hover {
+      background: #e6b800;
+    }
+
+    footer {
+      background: rgba(5,22,77,0.9);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>✈ Lufthansa Hub – Explore</h1>
+    <a href="index.html" style="color:white; text-decoration:none;">⬅ Back</a>
+  </nav>
+
+  <!-- Cards Section -->
+  <section class="cards">
+    <div class="card">
+      <h3>✈ Flight Bookings</h3>
+      <p>Book your Lufthansa flights quickly and securely.</p>
+      <a href="booking.html">Book Now →</a>
+    </div>
+    <div class="card">
+      <h3>📅 Events</h3>
+      <p>Stay connected with upcoming Lufthansa events and news.</p>
+      <a href="events.html">View Events →</a>
+    </div>
+    <div class="card">
+      <h3>📘 Training</h3>
+      <p>Access professional training resources for crew and staff.</p>
+      <a href="training.html">Start Learning →</a>
+    </div>
+    <div class="card">
+      <h3>🛠 Crew Tools</h3>
+      <p>Find useful tools built for Lufthansa staff and pilots.</p>
+      <a href="crew.html">Open Tools →</a>
+    </div>
+    <div class="card">
+      <h3>🌍 Destinations</h3>
+      <p>Discover Lufthansa destinations across the globe.</p>
+      <a href="destinations.html">Explore Now →</a>
+    </div>
+    <div class="card">
+      <h3>🏨 Hotels & Stays</h3>
+      <p>Book hotels and stays with Lufthansa partners.</p>
+      <a href="stay.html">Find Hotels →</a>
+    </div>
+    <div class="card">
+      <h3>Aircraft Information</h3>
+      <p>About our aircraft.</p>
+      <a href="aircraft.html">Learn Now →</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Lufthansa Hub</p>
+  </footer>
+</body>
+</html>

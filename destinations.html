@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lufthansa Destinations</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom, #001133, #002147);
+      color: white;
+    }
+
+    nav {
+      background: #000d26;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    nav h1 {
+      color: #ffcc00;
+      margin: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcc00;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: url("https://source.unsplash.com/1600x500/?airplane,sky") center/cover no-repeat;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,40,0.55);
+    }
+
+    .hero h2 {
+      position: relative;
+      font-size: 36px;
+      color: #ffcc00;
+      margin: 0;
+      z-index: 1;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .container {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 18px;
+      flex: 1;
+    }
+
+    .card-content h3 {
+      margin: 0;
+      color: #ffcc00;
+      font-size: 20px;
+    }
+
+    .card-content p {
+      font-size: 14px;
+      margin-top: 6px;
+      opacity: 0.9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+      background: #000d26;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>✈ Lufthansa Destinations</h1>
+    <a href="explore.html">⬅ Back</a>
+  </nav>
+
+  <div class="hero">
+    <h2>Explore Our Global Network</h2>
+    <p>From Europe to Asia and beyond, Lufthansa connects the world.</p>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <!-- Destination cards -->
+      <div class="card">
+        <img src="images/Izolirani.jpg" alt="Izolirani">
+        <div class="card-content">
+          <h3>Izolirani</h3>
+          <p>A serene getaway destination known for its natural beauty.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Al Najaf.jpg" alt="Al Najaf">
+        <div class="card-content">
+          <h3>Al Najaf</h3>
+          <p>A historic city in Iraq, rich with culture and heritage.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Greater Rockford.jpg" alt="Greater Rockford">
+        <div class="card-content">
+          <h3>Greater Rockford</h3>
+          <p>Modern aviation hub serving global travelers.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Mellor.jpg" alt="Mellor">
+        <div class="card-content">
+          <h3>Mellor</h3>
+          <p>Peaceful landscapes with a welcoming community atmosphere.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Tokyo.jpg" alt="Tokyo INTL.">
+        <div class="card-content">
+          <h3>Tokyo INTL.</h3>
+          <p>The gateway to Japan, blending tradition and innovation.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Perth.jpg" alt="Perth INTL.">
+        <div class="card-content">
+          <h3>Perth INTL.</h3>
+          <p>Western Australia’s vibrant city with sunny beaches.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Grindavik.jpg" alt="Grindavik">
+        <div class="card-content">
+          <h3>Grindavik</h3>
+          <p>Famous for geothermal wonders and the Blue Lagoon.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Sauthemptona.jpg" alt="Sauthemptona">
+        <div class="card-content">
+          <h3>Sauthemptona</h3>
+          <p>Historic British port city with a strong maritime past.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="images/Saint Barthelemy.jpg" alt="Saint Barthelemy">
+        <div class="card-content">
+          <h3>Saint Barthelemy</h3>
+          <p>Luxury Caribbean island with stunning beaches and resorts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Lufthansa Virtual | Destinations Showcase
+  </footer>
+</body>
+</html>

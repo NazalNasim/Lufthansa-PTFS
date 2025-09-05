@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lufthansa Hotels & Stays</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom, #001133, #002147);
+      color: white;
+    }
+
+    nav {
+      background: #000d26;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    nav h1 {
+      color: #ffcc00;
+      margin: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcc00;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: url("https://source.unsplash.com/1600x500/?hotel,travel") center/cover no-repeat;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,40,0.55);
+    }
+
+    .hero h2 {
+      position: relative;
+      font-size: 36px;
+      color: #ffcc00;
+      z-index: 1;
+      margin: 0;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .form-container {
+      max-width: 600px;
+      background: rgba(255,255,255,0.08);
+      padding: 30px;
+      border-radius: 14px;
+      margin: 40px auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .form-container h3 {
+      margin-top: 0;
+      color: #ffcc00;
+      text-align: center;
+    }
+
+    .form-container label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+    }
+
+    .form-container input, 
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 14px;
+      background: #ffcc00;
+      color: #001133;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-container button:hover {
+      background: #ffd633;
+    }
+
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+      background: #000d26;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>🏨 Lufthansa Hotels & Stays</h1>
+    <a href="explore.html">⬅ Back</a>
+  </nav>
+
+  <div class="hero">
+    <h2>Find Your Stay</h2>
+    <p>Book trusted hotels with Lufthansa’s worldwide partners.</p>
+  </div>
+
+  <div class="form-container">
+    <h3>Hotel Booking</h3>
+    <form id="hotelForm">
+      <label>Username</label>
+      <input name="username" required>
+
+      <label>Destination</label>
+      <input name="destination" required>
+
+      <label>Check-in</label>
+      <input type="date" name="checkin" required>
+
+      <label>Check-out</label>
+      <input type="date" name="checkout" required>
+
+      <label>Guests</label>
+      <select name="guests" required>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+
+      <button type="submit">🔍 Search Hotels</button>
+    </form>
+    <!-- ✅ Status placeholder -->
+    <div id="status"></div>
+  </div>
+
+  <footer>
+    © 2025 Lufthansa Virtual | Hotels & Stays
+  </footer>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyGGdS7M4FzmeOq8aQhsr0X83kxlBtnM6Ylb0K9HGQ83XzNf_BjcyR7irnhKsfocH-PLw/exec";
+
+    const hotelForm = document.getElementById("hotelForm");
+    const statusEl = document.getElementById("status");
+
+    hotelForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("Form submitted!");
+      statusEl.style.color = "white";
+      statusEl.textContent = "⏳ Saving...";
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          body: new URLSearchParams(new FormData(hotelForm))
+        });
+        const text = await res.text();
+        console.log("Response from server:", text);
+
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (err) {
+          throw new Error("Invalid response from server: " + text);
+        }
+
+        if (result.result === "success") {
+          statusEl.style.color = "#90ee90";
+          statusEl.textContent = "✅ Saved to Google Sheets!";
+          hotelForm.reset();
+        } else {
+          statusEl.style.color = "#ff6666";
+          statusEl.textContent = "❌ Server error: " + (result.message || "unknown");
+        }
+      } catch (err) {
+        statusEl.style.color = "#ff6666";
+        statusEl.textContent = "❌ Network error: " + err.message;
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

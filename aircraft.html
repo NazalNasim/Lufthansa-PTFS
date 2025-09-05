@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lufthansa Aircraft Fleet</title>
+  <style>
+    :root {
+      --blue: #05164d;
+      --yellow: #ffcc00;
+      --white: #ffffff;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--blue);
+      color: var(--white);
+    }
+    nav {
+      background: rgba(5,22,77,0.95);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 { color: var(--yellow); margin: 0; }
+    nav a { color: var(--white); text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(rgba(5,22,77,0.7),rgba(5,22,77,0.7)),
+                  url("https://upload.wikimedia.org/wikipedia/commons/7/75/Lufthansa_Airbus_A350-900_D-AIXK.jpg") center/cover;
+    }
+    .hero h2 { font-size: 38px; color: var(--yellow); }
+    .hero p { font-size: 16px; opacity: 0.9; }
+
+    .fleet {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .aircraft-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .aircraft-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .aircraft-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .aircraft-card h3 {
+      margin: 12px;
+      color: var(--yellow);
+    }
+    .aircraft-card p {
+      margin: 0 12px 16px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: #fff;
+      color: #000;
+      padding: 25px;
+      border-radius: 14px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>✈ Lufthansa Aircraft</h1>
+    <a href="explore.html">⬅ Back</a>
+  </nav>
+
+  <section class="hero">
+    <h2>Our Lufthansa Fleet</h2>
+    <p>Discover the aircraft that power Lufthansa’s global network.</p>
+  </section>
+
+  <section class="fleet">
+    <div class="aircraft-card" data-model="Airbus A320neo" data-range="6,300 km" data-seats="180–200" data-img="https://upload.wikimedia.org/wikipedia/commons/9/9f/Lufthansa_A320neo_D-AINZ.jpg">
+      <img src="/images/AirbusA320neo.jpg" alt="Airbus A320neo">
+      <h3>Airbus A320neo</h3>
+      <p>Efficient short–medium haul aircraft serving Europe.</p>
+    </div>
+
+    <div class="aircraft-card" data-model="Airbus A350-900" data-range="15,000 km" data-seats="293–319" data-img="https://upload.wikimedia.org/wikipedia/commons/7/75/Lufthansa_Airbus_A350-900_D-AIXK.jpg">
+      <img src="images/AirbusA350.jpg" alt="Airbus A350">
+      <h3>Airbus A350-900</h3>
+      <p>Modern, fuel-efficient long-haul aircraft for global routes.</p>
+    </div>
+
+    <div class="aircraft-card" data-model="Boeing 747-8" data-range="13,450 km" data-seats="364–386" data-img="https://upload.wikimedia.org/wikipedia/commons/2/2d/Lufthansa_Boeing_747-8_D-ABYA.jpg">
+      <img src="images/Boeing747.jpg" alt="Boeing 747-8">
+      <h3>Boeing 747-8</h3>
+      <p>The iconic “Queen of the Skies” still leading intercontinental flights.</p>
+    </div>
+
+    <div class="aircraft-card" data-model="Airbus A380" data-range="11,750 km" data-seats="270–300" data-img="https://upload.wikimedia.org/wikipedia/commons/6/6c/Lufthansa_Airbus_A330-300_D-AIKO.jpg">
+      <img src="images/A380.jpg" alt="Airbus A330-300">
+      <h3>Airbus A380</h3>
+      <p>The Airbus A380 is a very large wide-body airliner, developed and produced by Airbus until 2021. It is the world's largest passenger airliner and the only full-length double-deck jet airliner.</p>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal" id="aircraftModal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modalImg" src="" alt="Aircraft">
+      <h2 id="modalTitle"></h2>
+      <p><strong>Range:</strong> <span id="modalRange"></span></p>
+      <p><strong>Seats:</strong> <span id="modalSeats"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("aircraftModal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalRange = document.getElementById("modalRange");
+    const modalSeats = document.getElementById("modalSeats");
+    const closeBtn = document.querySelector(".close-btn");
+
+    document.querySelectorAll(".aircraft-card").forEach(card => {
+      card.addEventListener("click", () => {
+        modal.style.display = "flex";
+        modalImg.src = card.dataset.img;
+        modalTitle.textContent = card.dataset.model;
+        modalRange.textContent = card.dataset.range;
+        modalSeats.textContent = card.dataset.seats;
+      });
+    });
+
+    closeBtn.onclick = () => modal.style.display = "none";
+    modal.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+  </script>
+</body>
+</html>

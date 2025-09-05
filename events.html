@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lufthansa Events</title>
+  <style>
+    :root {
+      --blue: #05164d;
+      --yellow: #ffcc00;
+      --white: #ffffff;
+    }
+    body { background: var(--blue); color: var(--white); font-family: "Segoe UI", sans-serif; margin: 0; }
+    nav { background: rgba(5,22,77,0.9); padding: 15px 40px; display: flex; justify-content: space-between; }
+    nav h1 { color: var(--yellow); font-size: 22px; }
+    nav a { color: var(--white); text-decoration: none; opacity: 0.9; }
+    .hero { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(5,22,77,0.6),rgba(5,22,77,0.6)),url("https://upload.wikimedia.org/wikipedia/commons/8/80/Lufthansa_Airbus_A350-900_D-AIXI.jpg") center/cover; }
+    .hero h2 { font-size: 40px; color: var(--yellow); }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+    .event-card { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 20px; transition: 0.3s; }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
+    .event-date { font-size: 14px; color: var(--yellow); margin-bottom: 8px; }
+    .event-card h3 { margin: 8px 0; color: var(--yellow); }
+    .event-card p { font-size: 15px; color: #e0e0e0; }
+    .event-card a { display: inline-block; margin-top: 10px; padding: 8px 14px; background: var(--yellow); color: var(--blue); text-decoration: none; border-radius: 8px; font-weight: bold; }
+    .admin-controls { text-align: center; margin: 20px; }
+    .admin-controls button { background: var(--yellow); color: var(--blue); border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    #eventForm { display: none; max-width: 500px; margin: 20px auto; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; }
+    #eventForm input, #eventForm textarea { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: none; }
+    .edit-delete button { margin: 5px 5px 0 0; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; }
+    .edit-btn { background: #fff; color: var(--blue); }
+    .delete-btn { background: #fff; color: #a10000; }
+    footer { text-align: center; padding: 16px; background: rgba(5,22,77,0.9); }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>✈ Lufthansa Hub – Events</h1>
+    <a href="explore.html">⬅ Back</a>
+  </nav>
+
+  <section class="hero">
+    <h2>Upcoming Events</h2>
+    <p>Stay connected with Lufthansa Virtual activities.</p>
+  </section>
+
+  <section class="events" id="eventsList"></section>
+
+  <div class="admin-controls">
+    <button id="adminLoginBtn">🔑 Admin Login</button>
+    <button id="addEventBtn" style="display:none;">➕ Add Event</button>
+  </div>
+
+  <form id="eventForm">
+    <input type="date" id="eventDate" required>
+    <input type="text" id="eventTitle" placeholder="✈ Event Title" required>
+    <textarea id="eventDesc" placeholder="📝 Event Description" required></textarea>
+    <input type="text" id="eventLink" placeholder="🔗 Event Link" required>
+    <button type="submit">✅ Save Event</button>
+  </form>
+
+  <footer><p>© 2025 Lufthansa Hub</p></footer>
+
+  <script>
+    const adminPassword = "LufthansaAdmin123"; 
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyC6T57w-CGb4iUwSsngZ--MP-VppTJXz9UEHEFxTf7Tuh2cpAwDQWkslNE_ps55DVw/exec"; // paste your Apps Script Web App URL
+
+    const adminLoginBtn = document.getElementById("adminLoginBtn");
+    const addEventBtn = document.getElementById("addEventBtn");
+    const eventForm = document.getElementById("eventForm");
+    const eventsList = document.getElementById("eventsList");
+
+    let isAdmin = false;
+    let editingId = null;
+
+    // Load events
+    async function loadEvents() {
+      const res = await fetch(scriptURL);
+      const events = await res.json();
+      eventsList.innerHTML = "";
+
+      events.forEach(ev => {
+        const card = document.createElement("div");
+        card.classList.add("event-card");
+        card.innerHTML = `
+          <div class="event-date">📅 ${ev.date}</div>
+          <h3>${ev.title}</h3>
+          <p>${ev.description}</p>
+          <a href="${ev.link}" target="_blank">Join Event →</a>
+        `;
+
+        if (isAdmin) {
+          const tools = document.createElement("div");
+          tools.classList.add("edit-delete");
+          tools.innerHTML = `
+            <button class="edit-btn">✏ Edit</button>
+            <button class="delete-btn">🗑 Delete</button>
+          `;
+          card.appendChild(tools);
+
+          tools.querySelector(".edit-btn").onclick = () => {
+            editingId = ev.id;
+            document.getElementById("eventDate").value = ev.date;
+            document.getElementById("eventTitle").value = ev.title;
+            document.getElementById("eventDesc").value = ev.description;
+            document.getElementById("eventLink").value = ev.link;
+            eventForm.style.display = "block";
+          };
+
+          tools.querySelector(".delete-btn").onclick = async () => {
+            if (confirm("Delete this event?")) {
+              await fetch(`${scriptURL}?id=${ev.id}&_method=DELETE`, { method: "POST" });
+              loadEvents();
+            }
+          };
+        }
+
+        eventsList.appendChild(card);
+      });
+    }
+
+    // Admin login
+    adminLoginBtn.onclick = () => {
+      const pwd = prompt("Enter admin password:");
+      if (pwd === adminPassword) {
+        isAdmin = true;
+        adminLoginBtn.style.display = "none";
+        addEventBtn.style.display = "inline-block";
+        loadEvents();
+      } else {
+        alert("❌ Wrong password");
+      }
+    };
+
+    // Show add form
+    addEventBtn.onclick = () => {
+      eventForm.style.display = "block";
+      eventForm.reset();
+      editingId = null;
+    };
+
+    // Save (add/edit)
+    eventForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const data = {
+        date: document.getElementById("eventDate").value,
+        title: document.getElementById("eventTitle").value,
+        description: document.getElementById("eventDesc").value,
+        link: document.getElementById("eventLink").value
+      };
+
+      if (editingId) {
+        await fetch(`${scriptURL}?id=${editingId}&_method=PUT`, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+        editingId = null;
+      } else {
+        await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+
+      eventForm.reset();
+      eventForm.style.display = "none";
+      loadEvents();
+    };
+
+    loadEvents(); // initial load
+  </script>
+</body>
+</html>
