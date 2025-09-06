@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lufthansa Crew Info</title>
+  <style>
+    :root {
+      --blue: #05164d;
+      --yellow: #ffcc00;
+      --white: #ffffff;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--blue);
+      color: var(--white);
+    }
+    nav {
+      background: rgba(5,22,77,0.9);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 { color: var(--yellow); font-size: 22px; }
+    nav a { color: var(--white); text-decoration: none; opacity: 0.9; }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(rgba(5,22,77,0.6),rgba(5,22,77,0.6)),
+                  url("https://source.unsplash.com/1600x500/?aircrew,airline") center/cover;
+    }
+    .hero h2 { font-size: 42px; color: var(--yellow); }
+    .crew {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .crew-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .crew-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+    .crew-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--yellow);
+      margin-bottom: 12px;
+    }
+    .crew-card h3 { margin: 8px 0; color: var(--yellow); }
+    .crew-card p { font-size: 15px; color: #e0e0e0; margin: 6px 0; }
+    footer {
+      text-align: center;
+      padding: 16px;
+      background: rgba(5,22,77,0.9);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>👨‍✈️ Lufthansa Crew Info</h1>
+    <a href="explore.html">⬅ Back</a>
+  </nav>
+
+  <section class="hero">
+    <h2>Meet Our Crew</h2>
+    <p>The heart of Lufthansa Virtual – Pilots & Cabin Crew</p>
+  </section>
+
+  <section class="crew">
+    <div class="crew-card">
+      <img src="https://source.unsplash.com/200x200/?pilot" alt="Captain">
+      <h3>Captain Markus Schmidt</h3>
+      <p>Chief Pilot – Airbus A350</p>
+      <p>15,000+ Flight Hours</p>
+    </div>
+    <div class="crew-card">
+      <img src="https://source.unsplash.com/200x200/?flight-attendant" alt="Crew">
+      <h3>Sophia Müller</h3>
+      <p>Senior Cabin Crew</p>
+      <p>10 Years with Lufthansa</p>
+    </div>
+    <div class="crew-card">
+      <img src="https://source.unsplash.com/200x200/?airline-pilot" alt="First Officer">
+      <h3>First Officer Leon Becker</h3>
+      <p>Boeing 747 Fleet</p>
+      <p>6,000+ Flight Hours</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Lufthansa Hub | Crew Info
+  </footer>
+</body>
+</html>
